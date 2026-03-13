@@ -16,7 +16,7 @@ describe("User state API (integration)", () => {
 
     const meBefore = await request(app).get(`/me?telegram_id=${telegramId}`);
     expect(meBefore.status).toBe(200);
-    expect(meBefore.body).toEqual(
+    expect(meBefore.body.data).toEqual(
       expect.objectContaining({
         telegram_id: telegramId,
         username: "state_user",
@@ -29,10 +29,10 @@ describe("User state API (integration)", () => {
       .post("/tap")
       .send({ telegram_id: telegramId });
     expect(tapRes.status).toBe(200);
-    expect(tapRes.body).toEqual(
+    expect(tapRes.body.data).toEqual(
       expect.objectContaining({
-        balance: meBefore.body.balance + 1,
-        energy: meBefore.body.energy - 1,
+        balance: meBefore.body.data.balance + 1,
+        energy: meBefore.body.data.energy - 1,
       }),
     );
   });

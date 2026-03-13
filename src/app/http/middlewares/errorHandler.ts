@@ -3,7 +3,7 @@ import { AppError } from "../../../shared/errors/AppError";
 
 export function errorHandler(
   err: unknown,
-  _req: Request,
+  req: Request,
   res: Response,
   _next: NextFunction,
 ) {
@@ -12,12 +12,21 @@ export function errorHandler(
   if (err instanceof AppError) {
     return res.status(err.status).json({
       success: false,
-      error: err.message,
+      error: {
+        code: err.code,
+        message: err.message,
+        requestId: req.requestId,
+        details: err.details,
+      },
     });
   }
 
   return res.status(500).json({
     success: false,
-    error: "Internal Server Error",
+    error: {
+      code: "INTERNAL_ERROR",
+      message: "Internal Server Error",
+      requestId: req.requestId,
+    },
   });
 }

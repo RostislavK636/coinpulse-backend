@@ -17,7 +17,7 @@ describe("Daily reward API (integration)", () => {
     });
 
     expect(first.status).toBe(200);
-    expect(first.body).toEqual(
+    expect(first.body.data).toEqual(
       expect.objectContaining({
         reward: 100,
         balance: expect.any(Number),

@@ -22,15 +22,19 @@ export class TelegramWebhookController {
   handle = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const update = (req.body ?? {}) as TelegramWebhookUpdate;
-      const message = update.message;
+      console.log("Incoming update:", JSON.stringify(update, null, 2));
 
-      if (!message || message.text !== "/start") {
+      const message = update.message;
+      const text = message?.text?.trim() ?? "";
+
+      if (!message || !text.startsWith("/start")) {
         res.status(200).json({ success: true, data: { handled: false } });
         return;
       }
 
       const telegramId = message.from?.id;
-      const chatId = message.chat?.id;
+      const chatId = message.chat?.id ?? message.from?.id;
+      console.log("chat_id:", chatId);
 
       if (!telegramId || !chatId) {
         res.status(200).json({ success: true, data: { handled: false } });

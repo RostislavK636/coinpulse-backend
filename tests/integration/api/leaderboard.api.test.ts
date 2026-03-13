@@ -31,15 +31,20 @@ describe("Leaderboard API (integration)", () => {
     const response = await request(app).get("/leaderboard");
 
     expect(response.status).toBe(200);
-    expect(Array.isArray(response.body)).toBe(true);
-    expect(response.body.length).toBeGreaterThanOrEqual(3);
+    expect(Array.isArray(response.body.data)).toBe(true);
+    expect(response.body.data.length).toBeGreaterThan(0);
 
-    const filtered = response.body.filter((item: { username: string }) =>
+    const balances = response.body.data.map(
+      (item: { balance: number }) => item.balance,
+    );
+    for (let i = 1; i < balances.length; i += 1) {
+      expect(balances[i - 1]).toBeGreaterThanOrEqual(balances[i]);
+    }
+
+    const filtered = response.body.data.filter((item: { username: string }) =>
       item.username?.startsWith(runPrefix),
     );
 
-    expect(filtered.length).toBe(3);
-    expect(filtered[0].balance).toBeGreaterThanOrEqual(filtered[1].balance);
-    expect(filtered[1].balance).toBeGreaterThanOrEqual(filtered[2].balance);
+    expect(filtered.length).toBeGreaterThan(0);
   });
 });

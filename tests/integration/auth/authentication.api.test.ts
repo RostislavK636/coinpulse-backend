@@ -23,10 +23,10 @@ describe("Authentication API (integration)", () => {
     expect(res.body.data.tokens.refreshToken).toEqual(expect.any(String));
   });
 
-  it("GET /api/v1/me without token returns 401", async () => {
+  it("GET /api/v1/game/state without token returns 401", async () => {
     const app = createApp();
 
-    const res = await request(app).get("/api/v1/me");
+    const res = await request(app).get("/api/v1/game/state");
 
     expect(res.status).toBe(401);
     expect(res.body.success).toBe(false);
