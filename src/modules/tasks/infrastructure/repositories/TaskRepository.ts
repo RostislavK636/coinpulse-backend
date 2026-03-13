@@ -1,0 +1,32 @@
+export type TaskRecord = {
+  id: string;
+  title: string;
+  reward: number;
+};
+
+const tasks: TaskRecord[] = [
+  { id: "join-telegram", title: "Join Telegram channel", reward: 150 },
+  { id: "visit-site", title: "Visit website", reward: 100 },
+  { id: "follow-twitter", title: "Follow Twitter", reward: 120 },
+];
+
+const claimedByUser = new Map<string, Set<string>>();
+
+export class TaskRepository {
+  async listTasks() {
+    return tasks;
+  }
+
+  async claimTask(userId: string, taskId: string) {
+    const task = tasks.find((item) => item.id === taskId);
+    if (!task) {
+      return null;
+    }
+
+    const claimed = claimedByUser.get(userId) ?? new Set<string>();
+    claimed.add(taskId);
+    claimedByUser.set(userId, claimed);
+
+    return task;
+  }
+}

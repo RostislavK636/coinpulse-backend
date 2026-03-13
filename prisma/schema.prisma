@@ -1,0 +1,34 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  // After changing schema run: npx prisma db push
+  id          Int      @id @default(autoincrement())
+  telegram_id BigInt   @unique
+  username    String?
+  balance     Int      @default(0)
+  energy      Int      @default(100)
+  lastEnergyUpdate DateTime @default(now())
+  lastDailyReward  DateTime?
+  createdAt   DateTime @default(now())
+}
+
+model Task {
+  id     String @id @default(uuid())
+  title  String
+  reward Float
+}
+
+model Withdrawal {
+  id        String   @id @default(uuid())
+  userId    String
+  amount    Float
+  status    String
+  createdAt DateTime @default(now())
+}
