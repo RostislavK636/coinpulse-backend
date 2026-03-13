@@ -12,6 +12,7 @@ import {
   validateTelegramIdFromQuery,
 } from "../http/middlewares/telegramIdValidation.middleware";
 import { LeaderboardController } from "../http/controllers/LeaderboardController";
+import { TelegramWebhookController } from "../http/controllers/TelegramWebhookController";
 import { TestController } from "../http/controllers/TestController";
 import { UsersController } from "../http/controllers/UsersController";
 import { UserController } from "../http/controllers/UserController";
@@ -22,6 +23,7 @@ export function createApp() {
   const usersController = new UsersController();
   const userController = new UserController();
   const leaderboardController = new LeaderboardController();
+  const telegramWebhookController = new TelegramWebhookController();
 
   const limiter = rateLimit({
     windowMs: 60_000,
@@ -36,8 +38,8 @@ export function createApp() {
 
   app.use(
     cors({
-      origin: "*",
-      methods: ["GET", "POST"],
+      origin: ["https://tgapp-e3ade.web.app", "https://tgapp-e3ade.web.app/"],
+      methods: ["GET", "POST", "OPTIONS"],
     }),
   );
   app.use(express.json());
@@ -50,6 +52,7 @@ export function createApp() {
   });
 
   app.get("/test", testController.handle);
+  app.post("/telegram/webhook", telegramWebhookController.handle);
   app.post("/register", validateTelegramIdFromBody, usersController.register);
   app.get("/me", validateTelegramIdFromQuery, userController.me);
   app.post(

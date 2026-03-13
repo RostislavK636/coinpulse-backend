@@ -2,8 +2,11 @@
   "name": "coinpulse-backend",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
-    "build": "prisma generate && tsc",
+    "build": "tsc",
     "start": "node dist/server.js",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",

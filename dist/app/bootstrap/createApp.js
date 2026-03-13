@@ -15,6 +15,7 @@ const requestId_middleware_1 = require("../http/middlewares/requestId.middleware
 const tapRateLimit_middleware_1 = require("../http/middlewares/tapRateLimit.middleware");
 const telegramIdValidation_middleware_1 = require("../http/middlewares/telegramIdValidation.middleware");
 const LeaderboardController_1 = require("../http/controllers/LeaderboardController");
+const TelegramWebhookController_1 = require("../http/controllers/TelegramWebhookController");
 const TestController_1 = require("../http/controllers/TestController");
 const UsersController_1 = require("../http/controllers/UsersController");
 const UserController_1 = require("../http/controllers/UserController");
@@ -24,6 +25,7 @@ function createApp() {
     const usersController = new UsersController_1.UsersController();
     const userController = new UserController_1.UserController();
     const leaderboardController = new LeaderboardController_1.LeaderboardController();
+    const telegramWebhookController = new TelegramWebhookController_1.TelegramWebhookController();
     const limiter = (0, express_rate_limit_1.default)({
         windowMs: 60_000,
         max: 100,
@@ -35,8 +37,8 @@ function createApp() {
         },
     });
     app.use((0, cors_1.default)({
-        origin: "*",
-        methods: ["GET", "POST"],
+        origin: ["https://tgapp-e3ade.web.app", "https://tgapp-e3ade.web.app/"],
+        methods: ["GET", "POST", "OPTIONS"],
     }));
     app.use(express_1.default.json());
     app.use(requestLogger_1.requestLogger);
@@ -46,6 +48,7 @@ function createApp() {
         res.status(200).json({ status: "ok" });
     });
     app.get("/test", testController.handle);
+    app.post("/telegram/webhook", telegramWebhookController.handle);
     app.post("/register", telegramIdValidation_middleware_1.validateTelegramIdFromBody, usersController.register);
     app.get("/me", telegramIdValidation_middleware_1.validateTelegramIdFromQuery, userController.me);
     app.post("/tap", telegramIdValidation_middleware_1.validateTelegramIdFromBody, tapRateLimit_middleware_1.tapRateLimitMiddleware, userController.tap);
