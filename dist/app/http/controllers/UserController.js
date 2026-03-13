@@ -1,21 +1,24 @@
-import { EnergyService } from "../../../modules/game/application/services/EnergyService";
-import { TapService } from "../../../modules/game/application/services/TapService";
-import { UserRepository } from "../../../modules/users/infrastructure/repositories/UserRepository";
-import { appError } from "../../../shared/errors/AppError";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserController = void 0;
+const EnergyService_1 = require("../../../modules/game/application/services/EnergyService");
+const TapService_1 = require("../../../modules/game/application/services/TapService");
+const UserRepository_1 = require("../../../modules/users/infrastructure/repositories/UserRepository");
+const AppError_1 = require("../../../shared/errors/AppError");
 function getTelegramId(req) {
     const value = req.telegramId;
     if (!value) {
-        throw appError.validation("telegram_id is required", [
+        throw AppError_1.appError.validation("telegram_id is required", [
             { field: "telegram_id", reason: "must be provided" },
         ]);
     }
     return value;
 }
-export class UserController {
+class UserController {
     userRepository;
     energyService;
     tapService;
-    constructor(userRepository = new UserRepository(), energyService = new EnergyService(userRepository), tapService = new TapService()) {
+    constructor(userRepository = new UserRepository_1.UserRepository(), energyService = new EnergyService_1.EnergyService(userRepository), tapService = new TapService_1.TapService()) {
         this.userRepository = userRepository;
         this.energyService = energyService;
         this.tapService = tapService;
@@ -25,7 +28,7 @@ export class UserController {
             const telegramId = getTelegramId(req);
             const user = await this.userRepository.findByTelegramId(telegramId);
             if (!user) {
-                throw appError.notFound("User not found");
+                throw AppError_1.appError.notFound("User not found");
             }
             const userWithRestoredEnergy = await this.energyService.restoreEnergy(user);
             res.status(200).json({
@@ -63,13 +66,13 @@ export class UserController {
             const telegramId = getTelegramId(req);
             const user = await this.userRepository.findByTelegramId(telegramId);
             if (!user) {
-                throw appError.notFound("User not found");
+                throw AppError_1.appError.notFound("User not found");
             }
             const now = new Date();
             const alreadyClaimedToday = user.lastDailyReward !== null &&
                 user.lastDailyReward.toDateString() === now.toDateString();
             if (alreadyClaimedToday) {
-                throw appError.validation("Daily reward already claimed");
+                throw AppError_1.appError.validation("Daily reward already claimed");
             }
             const reward = 100;
             const updated = await this.userRepository.applyDailyReward({
@@ -90,3 +93,4 @@ export class UserController {
         }
     };
 }
+exports.UserController = UserController;

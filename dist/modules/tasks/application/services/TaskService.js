@@ -1,8 +1,11 @@
-import { appError } from "../../../../shared/errors/AppError";
-import { TaskRepository } from "../../infrastructure/repositories/TaskRepository";
-export class TaskService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TaskService = void 0;
+const AppError_1 = require("../../../../shared/errors/AppError");
+const TaskRepository_1 = require("../../infrastructure/repositories/TaskRepository");
+class TaskService {
     repository;
-    constructor(repository = new TaskRepository()) {
+    constructor(repository = new TaskRepository_1.TaskRepository()) {
         this.repository = repository;
     }
     async listTasks() {
@@ -17,7 +20,7 @@ export class TaskService {
     async claimTask(userId, taskId) {
         const task = await this.repository.claimTask(userId, taskId);
         if (!task) {
-            throw appError.notFound("Task not found");
+            throw AppError_1.appError.notFound("Task not found");
         }
         return {
             taskId: task.id,
@@ -27,3 +30,4 @@ export class TaskService {
         };
     }
 }
+exports.TaskService = TaskService;

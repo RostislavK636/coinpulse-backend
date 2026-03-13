@@ -1,9 +1,12 @@
-import "dotenv/config";
-import { PrismaClient } from "@prisma/client";
-export const prisma = globalThis.__coinpulse_prisma__ ??
-    new PrismaClient({
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.prisma = void 0;
+require("dotenv/config");
+const client_1 = require("@prisma/client");
+exports.prisma = globalThis.__coinpulse_prisma__ ??
+    new client_1.PrismaClient({
         log: ["warn", "error"],
     });
 if (process.env.NODE_ENV !== "production") {
-    globalThis.__coinpulse_prisma__ = prisma;
+    globalThis.__coinpulse_prisma__ = exports.prisma;
 }

@@ -1,10 +1,13 @@
-import { prisma } from "../../../../infrastructure/prisma/client";
-export class UserRepository {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRepository = void 0;
+const client_1 = require("../../../../infrastructure/prisma/client");
+class UserRepository {
     async findByTelegramId(telegramId) {
-        return prisma.user.findUnique({ where: { telegram_id: telegramId } });
+        return client_1.prisma.user.findUnique({ where: { telegram_id: telegramId } });
     }
     async createByTelegramId(telegramId, username) {
-        return prisma.user.create({
+        return client_1.prisma.user.create({
             data: {
                 telegram_id: telegramId,
                 username,
@@ -12,7 +15,7 @@ export class UserRepository {
         });
     }
     async updateBalanceAndEnergy(input) {
-        return prisma.user.update({
+        return client_1.prisma.user.update({
             where: { id: input.id },
             data: {
                 balance: input.balance,
@@ -21,7 +24,7 @@ export class UserRepository {
         });
     }
     async updateEnergyState(input) {
-        return prisma.user.update({
+        return client_1.prisma.user.update({
             where: { id: input.id },
             data: {
                 energy: input.energy,
@@ -30,7 +33,7 @@ export class UserRepository {
         });
     }
     async applyDailyReward(input) {
-        return prisma.user.update({
+        return client_1.prisma.user.update({
             where: { id: input.id },
             data: {
                 balance: input.balance,
@@ -39,7 +42,7 @@ export class UserRepository {
         });
     }
     async getLeaderboard(limit = 20) {
-        return prisma.user.findMany({
+        return client_1.prisma.user.findMany({
             take: limit,
             orderBy: { balance: "desc" },
             select: {
@@ -49,7 +52,7 @@ export class UserRepository {
         });
     }
     async createOrGetTestUser() {
-        return prisma.user.upsert({
+        return client_1.prisma.user.upsert({
             where: { telegram_id: BigInt(999000111) },
             update: { username: "test_user" },
             create: {
@@ -59,6 +62,7 @@ export class UserRepository {
         });
     }
     async findAll() {
-        return prisma.user.findMany({ orderBy: { createdAt: "asc" } });
+        return client_1.prisma.user.findMany({ orderBy: { createdAt: "asc" } });
     }
 }
+exports.UserRepository = UserRepository;

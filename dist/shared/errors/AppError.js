@@ -1,4 +1,7 @@
-export class AppError extends Error {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.appError = exports.AppError = void 0;
+class AppError extends Error {
     status;
     code;
     details;
@@ -9,7 +12,8 @@ export class AppError extends Error {
         this.details = details;
     }
 }
-export const appError = {
+exports.AppError = AppError;
+exports.appError = {
     validation: (message = "Validation failed", details) => new AppError(400, "VALIDATION_ERROR", message, details),
     unauthorized: (message = "Unauthorized") => new AppError(401, "UNAUTHORIZED", message),
     notFound: (message = "Not found") => new AppError(404, "NOT_FOUND", message),

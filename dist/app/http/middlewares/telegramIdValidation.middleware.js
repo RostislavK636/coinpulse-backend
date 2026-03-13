@@ -1,3 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateTelegramIdFromBody = validateTelegramIdFromBody;
+exports.validateTelegramIdFromQuery = validateTelegramIdFromQuery;
 function parseTelegramId(raw) {
     const value = Number(raw);
     if (!Number.isInteger(value) || value <= 0) {
@@ -11,7 +15,7 @@ function fail(res) {
         error: "Invalid telegram_id",
     });
 }
-export function validateTelegramIdFromBody(req, res, next) {
+function validateTelegramIdFromBody(req, res, next) {
     if (req.body?.telegram_id === undefined) {
         return fail(res);
     }
@@ -22,7 +26,7 @@ export function validateTelegramIdFromBody(req, res, next) {
     req.telegramId = BigInt(value);
     return next();
 }
-export function validateTelegramIdFromQuery(req, res, next) {
+function validateTelegramIdFromQuery(req, res, next) {
     if (req.query.telegram_id === undefined) {
         return fail(res);
     }

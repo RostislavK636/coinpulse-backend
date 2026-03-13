@@ -1,8 +1,11 @@
-import { Prisma } from "@prisma/client";
-import { UserRepository } from "../../infrastructure/repositories/UserRepository";
-export class UserService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserService = void 0;
+const client_1 = require("@prisma/client");
+const UserRepository_1 = require("../../infrastructure/repositories/UserRepository");
+class UserService {
     repository;
-    constructor(repository = new UserRepository()) {
+    constructor(repository = new UserRepository_1.UserRepository()) {
         this.repository = repository;
     }
     async registerByTelegramId(input) {
@@ -16,7 +19,7 @@ export class UserService {
         }
         catch (error) {
             // Concurrent requests can race on unique telegramId; fallback to read.
-            if (error instanceof Prisma.PrismaClientKnownRequestError &&
+            if (error instanceof client_1.Prisma.PrismaClientKnownRequestError &&
                 error.code === "P2002") {
                 const user = await this.repository.findByTelegramId(input.telegramId);
                 if (user) {
@@ -27,3 +30,4 @@ export class UserService {
         }
     }
 }
+exports.UserService = UserService;

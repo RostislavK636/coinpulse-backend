@@ -1,6 +1,9 @@
-import { appError } from "../../../shared/errors/AppError";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tapRateLimitMiddleware = tapRateLimitMiddleware;
+const AppError_1 = require("../../../shared/errors/AppError");
 const tapTimestampsByTelegramId = new Map();
-export function tapRateLimitMiddleware(req, _res, next) {
+function tapRateLimitMiddleware(req, _res, next) {
     const telegramIdRaw = req.body?.telegram_id;
     if (telegramIdRaw === undefined || telegramIdRaw === null) {
         next();
@@ -14,7 +17,7 @@ export function tapRateLimitMiddleware(req, _res, next) {
     recent.push(now);
     tapTimestampsByTelegramId.set(telegramId, recent);
     if (recent.length > 10) {
-        next(appError.rateLimited("Too many taps"));
+        next(AppError_1.appError.rateLimited("Too many taps"));
         return;
     }
     next();

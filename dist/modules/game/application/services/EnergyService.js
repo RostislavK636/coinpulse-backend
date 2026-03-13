@@ -1,7 +1,10 @@
-import { UserRepository } from "../../../users/infrastructure/repositories/UserRepository";
-export class EnergyService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.EnergyService = void 0;
+const UserRepository_1 = require("../../../users/infrastructure/repositories/UserRepository");
+class EnergyService {
     userRepository;
-    constructor(userRepository = new UserRepository()) {
+    constructor(userRepository = new UserRepository_1.UserRepository()) {
         this.userRepository = userRepository;
     }
     async restoreEnergy(user) {
@@ -19,3 +22,4 @@ export class EnergyService {
         });
     }
 }
+exports.EnergyService = EnergyService;

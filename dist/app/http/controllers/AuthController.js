@@ -1,8 +1,11 @@
-import { TelegramAuthService } from "../../../modules/auth/application/services/TelegramAuthService";
-import { appError } from "../../../shared/errors/AppError";
-export class AuthController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthController = void 0;
+const TelegramAuthService_1 = require("../../../modules/auth/application/services/TelegramAuthService");
+const AppError_1 = require("../../../shared/errors/AppError");
+class AuthController {
     authService;
-    constructor(authService = new TelegramAuthService({
+    constructor(authService = new TelegramAuthService_1.TelegramAuthService({
         botToken: "test",
         maxAuthAgeSeconds: 60,
     })) {
@@ -33,7 +36,7 @@ export class AuthController {
         try {
             const refreshToken = req.body?.refreshToken;
             if (typeof refreshToken !== "string" || refreshToken.length < 5) {
-                throw appError.validation("Invalid refresh token");
+                throw AppError_1.appError.validation("Invalid refresh token");
             }
             res.status(200).json({
                 success: true,
@@ -52,3 +55,4 @@ export class AuthController {
         }
     };
 }
+exports.AuthController = AuthController;

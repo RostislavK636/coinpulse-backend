@@ -1,5 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.AuthRepository = void 0;
 const users = new Map();
-export class AuthRepository {
+class AuthRepository {
     async findOrCreateByTelegramUser(input) {
         const existing = users.get(input.telegramId);
         if (existing) {
@@ -15,3 +18,4 @@ export class AuthRepository {
         return { user: created, isNewUser: true };
     }
 }
+exports.AuthRepository = AuthRepository;

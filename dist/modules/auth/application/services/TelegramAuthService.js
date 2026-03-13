@@ -1,9 +1,12 @@
-import { appError } from "../../../../shared/errors/AppError";
-import { AuthRepository } from "../../infrastructure/repositories/AuthRepository";
-export class TelegramAuthService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TelegramAuthService = void 0;
+const AppError_1 = require("../../../../shared/errors/AppError");
+const AuthRepository_1 = require("../../infrastructure/repositories/AuthRepository");
+class TelegramAuthService {
     repository;
     config;
-    constructor(config, repository = new AuthRepository()) {
+    constructor(config, repository = new AuthRepository_1.AuthRepository()) {
         this.config = config;
         this.repository = repository;
     }
@@ -12,17 +15,17 @@ export class TelegramAuthService {
         const userRaw = parsed.get("user");
         const authDateRaw = parsed.get("auth_date");
         if (!userRaw || !authDateRaw) {
-            throw appError.validation("Invalid Telegram initData");
+            throw AppError_1.appError.validation("Invalid Telegram initData");
         }
         let userPayload;
         try {
             userPayload = JSON.parse(userRaw);
         }
         catch {
-            throw appError.validation("Invalid Telegram user payload");
+            throw AppError_1.appError.validation("Invalid Telegram user payload");
         }
         if (!userPayload.id) {
-            throw appError.validation("Telegram user id is missing");
+            throw AppError_1.appError.validation("Telegram user id is missing");
         }
         const authDate = Number(authDateRaw);
         const now = this.config.nowProvider
@@ -30,7 +33,7 @@ export class TelegramAuthService {
             : 1731000030;
         if (!Number.isFinite(authDate) ||
             now - authDate > this.config.maxAuthAgeSeconds) {
-            throw appError.unauthorized("Telegram auth data expired");
+            throw AppError_1.appError.unauthorized("Telegram auth data expired");
         }
         const { user, isNewUser } = await this.repository.findOrCreateByTelegramUser({
             telegramId: String(userPayload.id),
@@ -53,3 +56,4 @@ export class TelegramAuthService {
         };
     }
 }
+exports.TelegramAuthService = TelegramAuthService;

@@ -1,5 +1,9 @@
-import { appError } from "../../../shared/errors/AppError";
-export function validate(rule) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validate = validate;
+exports.requireIdempotencyKey = requireIdempotencyKey;
+const AppError_1 = require("../../../shared/errors/AppError");
+function validate(rule) {
     return (req, _res, next) => {
         try {
             rule.headers?.(req);
@@ -11,9 +15,9 @@ export function validate(rule) {
         }
     };
 }
-export function requireIdempotencyKey(req) {
+function requireIdempotencyKey(req) {
     if (!req.header("Idempotency-Key")) {
-        throw appError.validation("Idempotency-Key is required", [
+        throw AppError_1.appError.validation("Idempotency-Key is required", [
             { field: "Idempotency-Key", reason: "header missing" },
         ]);
     }

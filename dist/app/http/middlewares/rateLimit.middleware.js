@@ -1,5 +1,8 @@
-import { appError } from "../../../shared/errors/AppError";
-export function createRateLimiter(max, windowMs) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createRateLimiter = createRateLimiter;
+const AppError_1 = require("../../../shared/errors/AppError");
+function createRateLimiter(max, windowMs) {
     const buckets = new Map();
     return (req, _res, next) => {
         const key = req.ip || "unknown";
@@ -11,7 +14,7 @@ export function createRateLimiter(max, windowMs) {
         }
         existing.count += 1;
         if (existing.count > max) {
-            return next(appError.rateLimited());
+            return next(AppError_1.appError.rateLimited());
         }
         return next();
     };

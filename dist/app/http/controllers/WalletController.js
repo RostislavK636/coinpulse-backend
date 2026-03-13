@@ -1,10 +1,13 @@
-import { randomUUID } from "node:crypto";
-import { WithdrawalService } from "../../../modules/wallet/application/services/WithdrawalService";
-import { WalletRepository } from "../../../modules/wallet/infrastructure/repositories/WalletRepository";
-export class WalletController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WalletController = void 0;
+const node_crypto_1 = require("node:crypto");
+const WithdrawalService_1 = require("../../../modules/wallet/application/services/WithdrawalService");
+const WalletRepository_1 = require("../../../modules/wallet/infrastructure/repositories/WalletRepository");
+class WalletController {
     withdrawalService;
     walletRepository;
-    constructor(withdrawalService = new WithdrawalService(), walletRepository = new WalletRepository()) {
+    constructor(withdrawalService = new WithdrawalService_1.WithdrawalService(), walletRepository = new WalletRepository_1.WalletRepository()) {
         this.withdrawalService = withdrawalService;
         this.walletRepository = walletRepository;
     }
@@ -19,7 +22,7 @@ export class WalletController {
                 address: req.body.address,
             });
             await this.walletRepository.createWithdrawal({
-                id: randomUUID(),
+                id: (0, node_crypto_1.randomUUID)(),
                 userId,
                 amount: result.amount,
                 fee: result.fee,
@@ -44,3 +47,4 @@ export class WalletController {
         }
     };
 }
+exports.WalletController = WalletController;

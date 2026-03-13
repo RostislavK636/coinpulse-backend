@@ -1,7 +1,10 @@
-import { UserRepository } from "../../../modules/users/infrastructure/repositories/UserRepository";
-export class LeaderboardController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LeaderboardController = void 0;
+const UserRepository_1 = require("../../../modules/users/infrastructure/repositories/UserRepository");
+class LeaderboardController {
     userRepository;
-    constructor(userRepository = new UserRepository()) {
+    constructor(userRepository = new UserRepository_1.UserRepository()) {
         this.userRepository = userRepository;
     }
     list = async (_req, res, next) => {
@@ -17,3 +20,4 @@ export class LeaderboardController {
         }
     };
 }
+exports.LeaderboardController = LeaderboardController;

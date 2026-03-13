@@ -1,8 +1,11 @@
-import { UserService } from "../../../modules/users/application/services/UserService";
-import { appError } from "../../../shared/errors/AppError";
-export class UsersController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UsersController = void 0;
+const UserService_1 = require("../../../modules/users/application/services/UserService");
+const AppError_1 = require("../../../shared/errors/AppError");
+class UsersController {
     userService;
-    constructor(userService = new UserService()) {
+    constructor(userService = new UserService_1.UserService()) {
         this.userService = userService;
     }
     register = async (req, res, next) => {
@@ -11,13 +14,13 @@ export class UsersController {
             const telegramIdRaw = body.telegram_id ?? body.telegramId;
             const hasValidTelegramId = typeof telegramIdRaw === "string" || typeof telegramIdRaw === "number";
             if (!hasValidTelegramId) {
-                throw appError.validation("telegram_id is required", [
+                throw AppError_1.appError.validation("telegram_id is required", [
                     { field: "telegram_id", reason: "must be string or number" },
                 ]);
             }
             const telegramIdString = String(telegramIdRaw).trim();
             if (telegramIdString.length === 0) {
-                throw appError.validation("telegram_id is required", [
+                throw AppError_1.appError.validation("telegram_id is required", [
                     { field: "telegram_id", reason: "must be non-empty" },
                 ]);
             }
@@ -26,12 +29,12 @@ export class UsersController {
                 telegramId = BigInt(telegramIdString);
             }
             catch {
-                throw appError.validation("telegram_id is invalid", [
+                throw AppError_1.appError.validation("telegram_id is invalid", [
                     { field: "telegram_id", reason: "must be integer-like" },
                 ]);
             }
             if (body.username !== undefined && typeof body.username !== "string") {
-                throw appError.validation("username must be string", [
+                throw AppError_1.appError.validation("username must be string", [
                     { field: "username", reason: "must be string when provided" },
                 ]);
             }
@@ -63,3 +66,4 @@ export class UsersController {
         }
     };
 }
+exports.UsersController = UsersController;

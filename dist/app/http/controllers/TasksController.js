@@ -1,7 +1,10 @@
-import { TaskService } from "../../../modules/tasks/application/services/TaskService";
-export class TasksController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TasksController = void 0;
+const TaskService_1 = require("../../../modules/tasks/application/services/TaskService");
+class TasksController {
     taskService;
-    constructor(taskService = new TaskService()) {
+    constructor(taskService = new TaskService_1.TaskService()) {
         this.taskService = taskService;
     }
     list = async (req, res, next) => {
@@ -35,3 +38,4 @@ export class TasksController {
         }
     };
 }
+exports.TasksController = TasksController;

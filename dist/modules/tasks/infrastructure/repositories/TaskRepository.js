@@ -1,10 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TaskRepository = void 0;
 const tasks = [
     { id: "join-telegram", title: "Join Telegram channel", reward: 150 },
     { id: "visit-site", title: "Visit website", reward: 100 },
     { id: "follow-twitter", title: "Follow Twitter", reward: 120 },
 ];
 const claimedByUser = new Map();
-export class TaskRepository {
+class TaskRepository {
     async listTasks() {
         return tasks;
     }
@@ -19,3 +22,4 @@ export class TaskRepository {
         return task;
     }
 }
+exports.TaskRepository = TaskRepository;

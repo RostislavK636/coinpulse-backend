@@ -1,11 +1,14 @@
-import { appError } from "../../../../shared/errors/AppError";
-export class GameTapService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GameTapService = void 0;
+const AppError_1 = require("../../../../shared/errors/AppError");
+class GameTapService {
     async applyTap(input) {
         if (input.taps <= 0) {
-            throw appError.validation("taps must be positive");
+            throw AppError_1.appError.validation("taps must be positive");
         }
         if (input.taps > 1000) {
-            throw appError.antiCheat();
+            throw AppError_1.appError.antiCheat();
         }
         const availableByEnergy = Math.floor(input.currentState.energy / input.currentState.energyPerTap);
         const acceptedTaps = Math.max(0, Math.min(input.taps, availableByEnergy));
@@ -27,3 +30,4 @@ export class GameTapService {
         };
     }
 }
+exports.GameTapService = GameTapService;

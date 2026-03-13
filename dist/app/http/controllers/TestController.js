@@ -1,7 +1,10 @@
-import { UserTestService } from "../../../modules/users/application/services/UserTestService";
-export class TestController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TestController = void 0;
+const UserTestService_1 = require("../../../modules/users/application/services/UserTestService");
+class TestController {
     service;
-    constructor(service = new UserTestService()) {
+    constructor(service = new UserTestService_1.UserTestService()) {
         this.service = service;
     }
     handle = async (req, res, next) => {
@@ -29,3 +32,4 @@ export class TestController {
         }
     };
 }
+exports.TestController = TestController;

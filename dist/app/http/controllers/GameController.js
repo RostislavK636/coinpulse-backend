@@ -1,9 +1,12 @@
-import { GameTapService } from "../../../modules/game/application/services/GameTapService";
-import { GameRepository } from "../../../modules/game/infrastructure/repositories/GameRepository";
-export class GameController {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GameController = void 0;
+const GameTapService_1 = require("../../../modules/game/application/services/GameTapService");
+const GameRepository_1 = require("../../../modules/game/infrastructure/repositories/GameRepository");
+class GameController {
     gameRepository;
     gameTapService;
-    constructor(gameRepository = new GameRepository(), gameTapService = new GameTapService()) {
+    constructor(gameRepository = new GameRepository_1.GameRepository(), gameTapService = new GameTapService_1.GameTapService()) {
         this.gameRepository = gameRepository;
         this.gameTapService = gameTapService;
     }
@@ -41,3 +44,4 @@ export class GameController {
         }
     };
 }
+exports.GameController = GameController;

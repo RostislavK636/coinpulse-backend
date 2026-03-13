@@ -1,7 +1,10 @@
-import { UserRepository } from "../../infrastructure/repositories/UserRepository";
-export class UserTestService {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserTestService = void 0;
+const UserRepository_1 = require("../../infrastructure/repositories/UserRepository");
+class UserTestService {
     repository;
-    constructor(repository = new UserRepository()) {
+    constructor(repository = new UserRepository_1.UserRepository()) {
         this.repository = repository;
     }
     async createAndListUsers() {
@@ -9,3 +12,4 @@ export class UserTestService {
         return this.repository.findAll();
     }
 }
+exports.UserTestService = UserTestService;

@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GameRepository = void 0;
 const defaultState = {
     balance: 0,
     energy: 100,
@@ -6,7 +9,7 @@ const defaultState = {
     energyPerTap: 1,
 };
 const states = new Map();
-export class GameRepository {
+class GameRepository {
     async getState(userId) {
         return states.get(userId) ?? { ...defaultState };
     }
@@ -14,3 +17,4 @@ export class GameRepository {
         states.set(userId, state);
     }
 }
+exports.GameRepository = GameRepository;
